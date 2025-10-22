@@ -1,26 +1,57 @@
-import React from "react";
-import { v4 as uuid } from "uuid";
+// src/components/ItemForm.jsx
+import { useState } from "react";
 
-function ItemForm(props) {
+export default function ItemForm({ onItemFormSubmit }) {
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("Produce"); // default must be Produce
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const newItem = {
+      id: crypto.randomUUID ? crypto.randomUUID() : Date.now(),
+      name: name.trim(),
+      category,
+    };
+
+    onItemFormSubmit?.(newItem);
+
+    // optional reset
+    setName("");
+    setCategory("Produce");
+  }
+
   return (
-    <form className="NewItem">
-      <label>
-        Name:
-        <input type="text" name="name" />
-      </label>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="item-name">Name</label>
+        <input
+          id="item-name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </div>
 
-      <label>
-        Category:
-        <select name="category">
-          <option value="Produce">Produce</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Dessert">Dessert</option>
+      <div>
+        <label htmlFor="item-category">Category</label>
+        <select
+          id="item-category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option>Produce</option>
+          <option>Dairy</option>
+          <option>Dessert</option>
+          <option>Beverages</option>
+          <option>Bakery</option>
         </select>
-      </label>
+      </div>
 
+      {/* ✅ exact label + submit type so fireEvent.submit(getByText(/Add to List/)) works */}
       <button type="submit">Add to List</button>
     </form>
   );
 }
-
-export default ItemForm;
+ 

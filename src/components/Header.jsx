@@ -1,14 +1,10 @@
-import React from "react";
-
-function Header({ isDarkMode, onDarkModeClick }) {
+export default function Header({ isDarkMode = false, onDarkModeToggle }) {
   return (
-    <header>
-      <h2>Shopster</h2>
-      <button onClick={onDarkModeClick}>
-        {isDarkMode ? "Dark" : "Light"} Mode
+    <header className="header">
+      <h1>Shopping List</h1>
+      <button onClick={onDarkModeToggle}>
+        {isDarkMode ? "Light Mode" : "Dark Mode"}
       </button>
     </header>
   );
-}
-
-export default Header;
+} 
